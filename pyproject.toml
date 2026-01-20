@@ -1,0 +1,31 @@
+[project]
+name = "comfyui_fl-heartmula"
+description = "FL HeartMuLa - Multilingual AI music generation nodes for ComfyUI. Generate full songs with lyrics using the HeartMuLa model family. Supports English, Chinese, Japanese, Korean, and Spanish with song structure control via section markers and style tags."
+version = "2.0.0"
+license = "Apache-2.0"
+dependencies = [
+    "torch>=2.4.0",
+    "torchaudio>=2.4.0",
+    "torchvision>=0.19.0",
+    "torchtune>=0.4.0",
+    "torchao>=0.9.0",
+    "transformers>=4.45.0",
+    "tokenizers>=0.20.0",
+    "accelerate>=1.0.0",
+    "vector-quantize-pytorch>=1.20.0",
+    "einops>=0.8.0",
+    "soundfile",
+    "huggingface_hub>=0.20.0",
+    "modelscope>=1.20.0",
+    "tqdm",
+    "numpy",
+    "bitsandbytes>=0.42.0"
+]
+
+[project.urls]
+Repository = "https://github.com/filliptm/ComfyUI_FL-HeartMuLa"
+
+[tool.comfy]
+PublisherId = "machinedelusions"
+DisplayName = "FL HeartMuLa"
+Icon = ""

@@ -1,0 +1,164 @@
+/**
+ * FL HeartMuLa - Custom Styles
+ * Styling for the lyrics editor and song section toolbar
+ */
+
+/* ==================== TOOLBAR CONTAINER ==================== */
+.heartmula-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 8px;
+    background: #1e1e1e;
+    border-bottom: 1px solid #333;
+    box-sizing: border-box;
+}
+
+/* ==================== SECTION BUTTONS ==================== */
+.heartmula-section-btn {
+    padding: 4px 8px;
+    color: #ddd;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: monospace;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.heartmula-section-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.heartmula-section-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Section button colors */
+.heartmula-section-intro {
+    border-color: #6b5b95 !important;
+    background: rgba(107, 91, 149, 0.15);
+}
+.heartmula-section-intro:hover {
+    background: rgba(107, 91, 149, 0.35);
+}
+
+.heartmula-section-verse {
+    border-color: #88b04b !important;
+    background: rgba(136, 176, 75, 0.15);
+}
+.heartmula-section-verse:hover {
+    background: rgba(136, 176, 75, 0.35);
+}
+
+.heartmula-section-prechorus {
+    border-color: #f7cac9 !important;
+    background: rgba(247, 202, 201, 0.15);
+}
+.heartmula-section-prechorus:hover {
+    background: rgba(247, 202, 201, 0.35);
+}
+
+.heartmula-section-chorus {
+    border-color: #92a8d1 !important;
+    background: rgba(146, 168, 209, 0.15);
+}
+.heartmula-section-chorus:hover {
+    background: rgba(146, 168, 209, 0.35);
+}
+
+.heartmula-section-bridge {
+    border-color: #955251 !important;
+    background: rgba(149, 82, 81, 0.15);
+}
+.heartmula-section-bridge:hover {
+    background: rgba(149, 82, 81, 0.35);
+}
+
+.heartmula-section-outro {
+    border-color: #b565a7 !important;
+    background: rgba(181, 101, 167, 0.15);
+}
+.heartmula-section-outro:hover {
+    background: rgba(181, 101, 167, 0.35);
+}
+
+.heartmula-section-instrumental {
+    border-color: #45b8ac !important;
+    background: rgba(69, 184, 172, 0.15);
+}
+.heartmula-section-instrumental:hover {
+    background: rgba(69, 184, 172, 0.35);
+}
+
+/* ==================== LYRICS TEXTAREA ==================== */
+.heartmula-lyrics-editor {
+    font-family: monospace;
+    line-height: 1.5;
+    tab-size: 4;
+}
+
+/* ==================== RESPONSIVE ADJUSTMENTS ==================== */
+@media (max-width: 400px) {
+    .heartmula-toolbar {
+        padding: 6px;
+        gap: 3px;
+    }
+
+    .heartmula-section-btn {
+        padding: 3px 6px;
+        font-size: 10px;
+    }
+}
+
+/* ==================== SCROLLBAR STYLING ==================== */
+.heartmula-toolbar::-webkit-scrollbar {
+    height: 6px;
+}
+
+.heartmula-toolbar::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.heartmula-toolbar::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+
+.heartmula-toolbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Firefox scrollbar */
+.heartmula-toolbar {
+    scrollbar-color: #444 #1a1a1a;
+    scrollbar-width: thin;
+}
+
+/* ==================== NOTIFICATION TOAST ==================== */
+.heartmula-toast {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: #0f0;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 100;
+    white-space: nowrap;
+}
+
+.heartmula-toast.visible {
+    opacity: 1;
+}
