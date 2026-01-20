@@ -170,6 +170,7 @@ def load_model(
     variant: str = "3B",
     precision: str = "auto",
     use_4bit: bool = False,
+    use_compile: bool = False,
     force_reload: bool = False,
     progress_callback: Optional[Callable[[int, int], None]] = None,
 ) -> dict:
@@ -180,6 +181,7 @@ def load_model(
         variant: Model variant (3B or 7B)
         precision: Precision mode (auto, fp32, fp16, bf16)
         use_4bit: Whether to use 4-bit quantization
+        use_compile: Whether to use torch.compile for faster inference
         force_reload: Force reload even if cached
         progress_callback: Optional callback for progress updates
 
@@ -208,7 +210,7 @@ def load_model(
         dtype = torch.float16
 
     # Create cache key
-    cache_key = f"{variant}_{device}_{dtype}_{use_4bit}"
+    cache_key = f"{variant}_{device}_{dtype}_{use_4bit}_{use_compile}"
 
     # Return cached model if available
     if not force_reload and cache_key in _MODEL_CACHE:
@@ -248,6 +250,32 @@ def load_model(
         bnb_config=bnb_config,
     )
 
+    # Apply torch.compile if requested
+    compiled = False
+    if use_compile:
+        if device.type == "cuda":
+            try:
+                print("[FL HeartMuLa] Applying torch.compile to model (first run will be slower)...")
+                # Compile the backbone and decoder for faster inference
+                # Using reduce-overhead mode for best inference performance
+                pipeline.model.backbone = torch.compile(
+                    pipeline.model.backbone,
+                    mode="reduce-overhead",
+                    fullgraph=False,
+                )
+                pipeline.model.decoder = torch.compile(
+                    pipeline.model.decoder,
+                    mode="reduce-overhead",
+                    fullgraph=False,
+                )
+                compiled = True
+                print("[FL HeartMuLa] torch.compile applied successfully!")
+            except Exception as e:
+                print(f"[FL HeartMuLa] WARNING: torch.compile failed: {e}")
+                print("[FL HeartMuLa] Continuing without compilation...")
+        else:
+            print("[FL HeartMuLa] WARNING: torch.compile requires CUDA, skipping...")
+
     # Create model info dict
     model_info = {
         "pipeline": pipeline,
@@ -257,6 +285,7 @@ def load_model(
         "sample_rate": 48000,
         "max_duration_ms": MODEL_VARIANTS[variant]["max_duration_ms"],
         "use_4bit": use_4bit,
+        "compiled": compiled,
     }
 
     # Cache the model

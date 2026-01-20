@@ -73,6 +73,13 @@ class FL_HeartMuLa_ModelLoader:
                         "tooltip": "Use 4-bit quantization to reduce VRAM (requires bitsandbytes)"
                     }
                 ),
+                "use_compile": (
+                    "BOOLEAN",
+                    {
+                        "default": False,
+                        "tooltip": "Use torch.compile for faster inference (first run will be slower due to compilation)"
+                    }
+                ),
                 "force_reload": (
                     "BOOLEAN",
                     {
@@ -88,6 +95,7 @@ class FL_HeartMuLa_ModelLoader:
         model_version: str,
         precision: str = "auto",
         use_4bit: bool = False,
+        use_compile: bool = False,
         force_reload: bool = False
     ) -> Tuple[dict]:
         """
@@ -97,6 +105,7 @@ class FL_HeartMuLa_ModelLoader:
             model_version: Which model variant to load (3B or 7B)
             precision: Model precision mode
             use_4bit: Enable 4-bit quantization
+            use_compile: Enable torch.compile optimization
             force_reload: Force reload even if cached
 
         Returns:
@@ -128,6 +137,7 @@ class FL_HeartMuLa_ModelLoader:
         print(f"VRAM Required: ~{vram}GB")
         print(f"Precision: {precision}")
         print(f"4-bit Quantization: {use_4bit}")
+        print(f"torch.compile: {use_compile}")
         print(f"{'='*60}\n")
 
         try:
@@ -141,6 +151,7 @@ class FL_HeartMuLa_ModelLoader:
                 variant=model_version,
                 precision=precision,
                 use_4bit=use_4bit,
+                use_compile=use_compile,
                 force_reload=force_reload,
                 progress_callback=progress_callback,
             )
