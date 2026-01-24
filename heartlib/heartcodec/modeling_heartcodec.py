@@ -62,11 +62,19 @@ class HeartCodec(PreTrainedModel):
         num_steps=10,
         disable_progress=False,
         guidance_scale=1.25,
-        device="cuda",
+        device=None,
     ):
+        # Auto-detect device if not specified
+        if device is None:
+            if torch.cuda.is_available():
+                device = "cuda"
+            elif torch.backends.mps.is_available():
+                device = "mps"
+            else:
+                device = "cpu"
         codes = codes.unsqueeze(0).to(device)
-        first_latent = torch.randn(codes.shape[0], int(duration * 25), 256).to(
-            device
+        first_latent = torch.randn(
+            codes.shape[0], int(duration * 25), 256, device=device
         )  # B, T, 64
         first_latent_length = 0
         first_latent_codes_length = 0
@@ -123,7 +131,8 @@ class HeartCodec(PreTrainedModel):
                             true_latent.shape[0],
                             len_add_to_latent,
                             true_latent.shape[-1],
-                        ).to(device),
+                            device=device,
+                        ),
                     ],
                     1,
                 )

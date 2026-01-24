@@ -189,12 +189,15 @@ def load_model(
     # Determine device
     if torch.cuda.is_available():
         device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
     else:
         device = torch.device("cpu")
 
     # Determine dtype
+    # Note: MPS supports float16 but NOT bfloat16
     if precision == "auto":
-        if device.type == "cuda":
+        if device.type in ("cuda", "mps"):
             dtype = torch.float16
         else:
             dtype = torch.float32
@@ -225,18 +228,24 @@ def load_model(
     # Setup quantization config if needed
     bnb_config = None
     if use_4bit:
-        try:
-            from transformers import BitsAndBytesConfig
-            bnb_config = BitsAndBytesConfig(
-                load_in_4bit=True,
-                bnb_4bit_compute_dtype=dtype,
-                bnb_4bit_use_double_quant=True,
-                bnb_4bit_quant_type="nf4",
-            )
-            print("[FL HeartMuLa] Using 4-bit quantization")
-        except ImportError:
-            print("[FL HeartMuLa] WARNING: bitsandbytes not installed, using full precision")
-            bnb_config = None
+        # 4-bit quantization only works on CUDA (bitsandbytes requirement)
+        if device.type != "cuda":
+            print(f"[FL HeartMuLa] WARNING: 4-bit quantization requires CUDA, but device is {device.type}")
+            print("[FL HeartMuLa] Disabling 4-bit quantization, using full precision instead")
+            use_4bit = False
+        else:
+            try:
+                from transformers import BitsAndBytesConfig
+                bnb_config = BitsAndBytesConfig(
+                    load_in_4bit=True,
+                    bnb_4bit_compute_dtype=dtype,
+                    bnb_4bit_use_double_quant=True,
+                    bnb_4bit_quant_type="nf4",
+                )
+                print("[FL HeartMuLa] Using 4-bit quantization")
+            except ImportError:
+                print("[FL HeartMuLa] WARNING: bitsandbytes not installed, using full precision")
+                bnb_config = None
 
     # Load the pipeline
     print(f"[FL HeartMuLa] Loading HeartMuLa-{variant} pipeline...")
@@ -264,6 +273,12 @@ def load_model(
                 pipeline = pipeline.to(dtype=dtype)
         else:
             raise
+
+    # Get actual device from loaded model (may differ if quantization forced CPU)
+    actual_device = next(pipeline.model.parameters()).device
+    if actual_device != device:
+        print(f"[FL HeartMuLa] Note: Model loaded on {actual_device} (requested {device})")
+        device = actual_device
 
     # Create model info dict
     model_info = {
@@ -295,6 +310,8 @@ def clear_model_cache():
     gc.collect()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
+    if torch.backends.mps.is_available():
+        torch.mps.empty_cache()
 
     print("[FL HeartMuLa] Model cache cleared")
 

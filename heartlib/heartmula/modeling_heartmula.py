@@ -161,7 +161,9 @@ class HeartMuLa(PreTrainedModel):
         except RuntimeError:
             pass
 
-        with device:
+        # Use torch.device() context manager for proper device allocation
+        # The bare `with device:` syntax doesn't work correctly, especially on MPS
+        with torch.device(device):
             self.backbone.setup_caches(max_batch_size, dtype)
             self.decoder.setup_caches(
                 max_batch_size,

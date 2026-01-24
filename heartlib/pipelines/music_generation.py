@@ -234,7 +234,9 @@ class HeartMuLaGenPipeline(Pipeline):
         if os.path.exists(
             heartcodec_path := os.path.join(pretrained_path, "HeartCodec-oss")
         ):
-            heartcodec = HeartCodec.from_pretrained(heartcodec_path, device_map=device)
+            # device_map expects string, not torch.device object
+            device_str = str(device) if isinstance(device, torch.device) else device
+            heartcodec = HeartCodec.from_pretrained(heartcodec_path, device_map=device_str)
         else:
             raise FileNotFoundError(
                 f"Expected to find checkpoint for HeartCodec at {heartcodec_path} but not found. Please check your folder {pretrained_path}."

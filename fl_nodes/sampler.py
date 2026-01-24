@@ -131,6 +131,8 @@ class FL_HeartMuLa_Sampler:
         if torch.cuda.is_available():
             torch.cuda.manual_seed(seed)
             torch.cuda.manual_seed_all(seed)
+        if torch.backends.mps.is_available():
+            torch.mps.manual_seed(seed)
 
         print(f"\n{'='*60}")
         print(f"[FL HeartMuLa] Sampling Audio Tokens")
@@ -279,3 +281,5 @@ class FL_HeartMuLa_Sampler:
                     torch.cuda.synchronize()
                     allocated = torch.cuda.memory_allocated() / (1024**3)
                     print(f"[FL HeartMuLa] Ultra low mem: Finished with {allocated:.2f}GB VRAM allocated")
+            if torch.backends.mps.is_available():
+                torch.mps.empty_cache()
