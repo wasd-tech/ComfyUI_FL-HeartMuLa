@@ -110,30 +110,14 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 WEB_DIRECTORY = "./web"
 
 # Version info
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 
 # ASCII banner
 ascii_art = """
- ██╗  ██╗███████╗ █████╗ ██████╗ ████████╗███╗   ███╗██╗   ██╗██╗      █████╗
- ██║  ██║██╔════╝██╔══██╗██╔══██╗╚══██╔══╝████╗ ████║██║   ██║██║     ██╔══██╗
- ███████║█████╗  ███████║██████╔╝   ██║   ██╔████╔██║██║   ██║██║     ███████║
- ██╔══██║██╔══╝  ██╔══██║██╔══██╗   ██║   ██║╚██╔╝██║██║   ██║██║     ██╔══██║
- ██║  ██║███████╗██║  ██║██║  ██║   ██║   ██║ ╚═╝ ██║╚██████╔╝███████╗██║  ██║
- ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝
+⣏⡉ ⡇    ⣇⣸ ⢀⡀ ⢀⣀ ⡀⣀ ⣰⡀ ⡷⢾ ⡀⢀ ⡇  ⢀⣀
+⠇  ⠧⠤   ⠇⠸ ⠣⠭ ⠣⠼ ⠏  ⠘⠤ ⠇⠸ ⠣⠼ ⠧⠤ ⠣⠼
 """
-
-print(ascii_art)
-print("=" * 75)
+print(f"\033[35m{ascii_art}\033[0m")
 print(f"FL HeartMuLa v{__version__} - Multilingual AI Music Generation")
-print("Supports: English, Chinese, Japanese, Korean, Spanish")
-print("-" * 75)
-print("Nodes loaded:")
-print("  - FL HeartMuLa Model Loader  : Load the music generation model")
-print("  - FL HeartMuLa Conditioning  : Create conditioning from lyrics + tags")
-print("  - FL HeartMuLa Sampler       : Generate audio tokens")
-print("  - FL HeartMuLa Decode        : Decode tokens to audio waveform")
-print("  - FL HeartMuLa Tags Builder  : Build style/genre tags")
-print("  - FL HeartMuLa Transcribe    : Extract lyrics from audio")
-print("=" * 75)
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
