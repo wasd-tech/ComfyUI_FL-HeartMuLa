@@ -92,12 +92,35 @@ Example: `indie rock, male vocal, melancholic, slow, acoustic guitar`
 
 Models download automatically on first use to `ComfyUI/models/heartmula/`.
 
+### Memory Modes
+
+The Model Loader includes a `memory_mode` option to optimize for different VRAM configurations:
+
+| Mode | Description | Use Case |
+|------|-------------|----------|
+| `auto` | Auto-detect based on available VRAM | Recommended default |
+| `normal` | Full speed, no memory optimizations | 16GB+ VRAM |
+| `low` | Moderate memory savings | 10-16GB VRAM |
+| `ultra` | Aggressive memory cleanup | 8-10GB VRAM |
+
 ## Requirements
 
 - Python 3.10+
 - 16GB RAM minimum (32GB+ recommended)
-- NVIDIA GPU with 12GB+ VRAM (or 6GB with 4-bit quantization)
-- CUDA 12.1+ recommended
+
+### Supported Platforms
+
+| Platform | Device | Notes |
+|----------|--------|-------|
+| **NVIDIA GPU** | CUDA | 12GB+ VRAM (or 6GB with 4-bit quantization) |
+| **Apple Silicon** | MPS | M1/M2/M3/M4 Macs supported |
+| **CPU** | CPU | Slow fallback option |
+
+### Platform Notes
+
+- **NVIDIA**: CUDA 12.1+ recommended. 4-bit quantization available via bitsandbytes
+- **Apple Silicon**: Uses Metal Performance Shaders (MPS). 4-bit quantization not available (CUDA only)
+- **CPU**: Works but very slow, not recommended for generation
 
 ## Parameters
 
