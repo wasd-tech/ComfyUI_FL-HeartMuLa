@@ -72,7 +72,7 @@ class FL_HeartMuLa_ModelLoader:
                     }
                 ),
                 "precision": (
-                    ["auto", "fp32", "fp16", "bf16"],
+                    ["auto", "fp32", "fp16", "bf16", "fp8"],
                     {
                         "default": "auto",
                         "tooltip": "Model precision. Auto uses fp16 on CUDA, fp32 on CPU."
