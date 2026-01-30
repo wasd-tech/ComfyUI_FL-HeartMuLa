@@ -192,7 +192,7 @@ def load_model(
 
     Args:
         variant: Model variant (3B or 7B)
-        precision: Precision mode (auto, fp32, fp16, bf16)
+        precision: Precision mode (auto, fp32, fp16, bf16, fp8)
         use_4bit: Whether to use 4-bit quantization
         force_reload: Force reload even if cached
         progress_callback: Optional callback for progress updates
