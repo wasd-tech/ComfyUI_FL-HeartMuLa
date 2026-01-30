@@ -47,6 +47,19 @@ MODEL_VARIANTS = {
         "max_duration_ms": 240000,
         "languages": ["en", "zh", "ja", "ko", "es"],
     },
+    "3B-RL": {
+        "hf_repos": {
+            "model": "HeartMuLa/HeartMuLa-RL-oss-3B-20260123",
+            "codec": "HeartMuLa/HeartCodec-oss-20260123",
+            "config": "HeartMuLa/HeartMuLaGen",
+        },
+        "description": "3B RL-tuned model - Enhanced performance",
+        "vram_fp16": 12,
+        "vram_4bit": 6,
+        "max_duration_ms": 240000,
+        "languages": ["en", "zh", "ja", "ko", "es"],
+    },
+    # -------------------------------
     "7B": {
         "hf_repos": {
             "model": "HeartMuLa/HeartMuLa-oss-7B",
@@ -60,6 +73,7 @@ MODEL_VARIANTS = {
         "languages": ["en", "zh", "ja", "ko", "es"],
     },
 }
+
 
 
 def get_variant_list() -> list:
